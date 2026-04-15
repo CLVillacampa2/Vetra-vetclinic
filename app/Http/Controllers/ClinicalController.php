@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -33,9 +33,14 @@ class ClinicalController extends Controller
     }
 
     // 🌟 NEW: Profile Update Logic
-    public function updateProfile(Request $request) {
+ public function updateProfile(Request $request) {
         try {
             $user = Auth::user();
+
+            // SAFETY CHECK: Make sure Laravel actually knows who is logged in!
+            if (!$user) {
+                return response()->json(['success' => false, 'error' => 'User not authenticated.']);
+            }
 
             // Check if the new username is already taken by someone else
             if (User::where('username', $request->username)->where('id', '!=', $user->id)->exists()) {
@@ -60,10 +65,11 @@ class ClinicalController extends Controller
 
             return response()->json(['success' => true, 'user' => $user]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+            // This will now tell you EXACTLY what line of code crashed if it fails again
+            return response()->json(['success' => false, 'error' => 'System Error: ' . $e->getMessage()]);
         }
     }
-
+    
     public function login(Request $request) {
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
             $request->session()->regenerate();

@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black text-slate-600 uppercase tracking-widest pl-2">System ID (Username)</label>
+                    <label class="text-[10px] font-black text-slate-600 uppercase tracking-widest pl-2">ID</label>
                     <input required id="auth-user" type="text" class="w-full bg-white/80 border border-slate-300/50 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 transition-all placeholder-slate-400" placeholder="clinical_id">
                 </div>
 
@@ -110,7 +110,7 @@
 
         <main class="w-full max-w-[1400px] mx-auto p-8 md:p-12">
             <div id="view-Dashboard" class="view-container hidden-view space-y-12">
-                <h1 class="text-4xl font-black uppercase tracking-tight italic text-slate-400">CLINICAL <span class="text-red-600">OVERVIEW</span></h1>
+                <h1 class="text-4xl font-black uppercase tracking-tight italic text-slate-800">CLINICAL <span class="text-red-600">OVERVIEW</span></h1>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="dashboard-stats"></div>
                 <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
                     <div class="px-10 py-8 flex justify-between items-center">
@@ -140,7 +140,7 @@
 
             <div id="view-Inventory" class="view-container hidden-view space-y-8">
                 <h1 class="text-4xl font-black uppercase tracking-tight italic text-slate-800">Inventory <span class="text-red-600">Management</span></h1>
-                <div id="inventory-banner" class="bg-[#FFFBEB] border border-[#FEF3C7] rounded-2xl p-4 flex items-center gap-3">
+               <div id="inventory-banner" class="hidden bg-[#FFFBEB] border border-[#FEF3C7] rounded-2xl p-4 flex items-center gap-3">
                     <i data-lucide="alert-triangle" class="text-amber-500 w-5 h-5"></i>
                     <p id="inventory-banner-text" class="text-amber-800 text-xs font-bold uppercase tracking-tight opacity-70"></p>
                 </div>
@@ -200,7 +200,7 @@
             <form id="profile-form" onsubmit="handleProfileUpdate(event)" class="space-y-6">
                 <div class="space-y-4">
                     <div class="space-y-1"><label class="label-style">Display Name</label><input required id="prof-name" class="w-full bg-slate-50 border-none outline-none rounded-2xl px-6 py-4 font-bold text-slate-700"></div>
-                    <div class="space-y-1"><label class="label-style">Username</label><input required id="prof-user" class="w-full bg-slate-50 border-none outline-none rounded-2xl px-6 py-4 font-bold text-slate-700"></div>
+                    <div class="space-y-1"><label class="label-style">ID</label><input required id="prof-user" class="w-full bg-slate-50 border-none outline-none rounded-2xl px-6 py-4 font-bold text-slate-700"></div>
                     <div class="space-y-1"><label class="label-style">Email Address</label><input required id="prof-email" type="email" class="w-full bg-slate-50 border-none outline-none rounded-2xl px-6 py-4 font-bold text-slate-700"></div>
                     
                     <div class="pt-4 border-t border-slate-100 space-y-4">
@@ -434,8 +434,8 @@ function setView(v) {
             const term = search ? search.toLowerCase() : '';
 
             if (type === 'Patient') {
-                document.getElementById('registry-main-title').innerHTML = `PATIENT <span class="text-red-600">CLUSTER</span>`;
-                document.getElementById('registry-headings').innerHTML = `<div class="col-span-3 text-[11px] font-black text-slate-300 uppercase tracking-widest">Record Profile</div><div class="col-span-6 text-[11px] font-black text-slate-300 uppercase tracking-widest">Patient Information</div><div class="col-span-3 text-right text-[11px] font-black text-slate-300 uppercase tracking-widest">Administrative</div>`;
+                document.getElementById('registry-main-title').innerHTML = `<span class="text-4xl font-black uppercase tracking-tight italic text-slate-800"> PATIENT <span class="text-red-600">CLUSTER</span>`;
+                document.getElementById('registry-headings').innerHTML = `<div class="col-span-3 text-[11px] font-black text-slate-800 uppercase tracking-widest">Record Profile</div><div class="col-span-6 text-[11px] font-black text-slate-800 uppercase tracking-widest">Patient Information</div><div class="col-span-3 text-right text-[11px] font-black text-slate-800 uppercase tracking-widest">Administrative</div>`;
                 
                 listEl.innerHTML = data.patients.map((p, i) => {
                     if (term && !p.name.toLowerCase().includes(term) && !p.patient_id.toLowerCase().includes(term) && !(p.owner && p.owner.toLowerCase().includes(term))) {
@@ -447,8 +447,8 @@ function setView(v) {
                     return `<div class="grid grid-cols-12 items-center py-8 px-6 border-b border-slate-50 last:border-0 hover:bg-slate-50/50 rounded-2xl transition-all group"><div class="col-span-3"><h4 class="text-xl font-black text-slate-800 mb-1">${p.name}</h4><p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">${p.patient_id}</p></div><div class="col-span-6 flex flex-col gap-3"><div class="flex items-center gap-2"><span class="text-[9px] font-black bg-slate-800 text-white px-2 py-0.5 rounded uppercase">${animalTypeDisplay}</span><span class="${isYoung?'bg-[#10B981]':'bg-[#EF4444]'} text-white text-[9px] font-black px-2.5 py-1 rounded-lg">${p.age}</span><span class="text-base font-black text-slate-800 ml-2">${p.breed}</span></div><div class="flex items-center gap-6 text-[11px] text-slate-400"><span>${p.owner}</span> • <span>${p.birthday}</span></div></div><div class="col-span-3 flex justify-end gap-6 text-slate-200 group-hover:text-slate-300"><i onclick="openHistoryModal(${i})" data-lucide="history" class="w-4.5 h-4.5 cursor-pointer hover:text-slate-500"></i><i onclick="openModal('Patient', ${i})" data-lucide="edit-2" class="w-4.5 h-4.5 cursor-pointer hover:text-slate-800"></i><i onclick="deleteRecord('Patient', ${i})" data-lucide="trash-2" class="w-4.5 h-4.5 cursor-pointer hover:text-red-500"></i></div></div>`;
                 }).join('');
             } else {
-                document.getElementById('registry-main-title').innerHTML = `OWNER <span class="text-red-600">CLUSTER</span>`;
-                document.getElementById('registry-headings').innerHTML = `<div class="col-span-4 text-[11px] font-black text-slate-300 uppercase tracking-widest">Record Profile</div><div class="col-span-5 text-center text-[11px] font-black text-slate-300 uppercase tracking-widest text-center">Contact Details</div><div class="col-span-3 text-right text-[11px] font-black text-slate-300 uppercase tracking-widest">Administrative</div>`;
+                document.getElementById('registry-main-title').innerHTML = `<span class="text-4xl font-black uppercase tracking-tight italic text-slate-800"> OWNER <span class="text-red-600">CLUSTER</span>`;
+                document.getElementById('registry-headings').innerHTML = `<div class="col-span-4 text-[11px] font-black text-slate-800 uppercase tracking-widest">Record Profile</div><div class="col-span-5 text-center text-[11px] font-black text-slate-800 uppercase tracking-widest text-center">Contact Details</div><div class="col-span-3 text-right text-[11px] font-black text-slate-800 uppercase tracking-widest">Administrative</div>`;
                 
                 listEl.innerHTML = data.owners.map((o, i) => {
                     if (term && !o.name.toLowerCase().includes(term) && !o.email.toLowerCase().includes(term) && !o.phone.includes(term)) {
@@ -484,11 +484,18 @@ function setView(v) {
             }
             lucide.createIcons();
         }
-        function renderInventory() {
+    function renderInventory() {
             const grid = document.getElementById('inventory-grid');
             const low = data.inventory.filter(i => i.critical);
-            document.getElementById('inventory-banner-text').innerText = low.length > 0 ? `${low.length} items running low` : 'Inventory Levels Normal';
-            
+
+            const banner = document.getElementById('inventory-banner');
+            if (low.length > 0) {
+                banner.classList.remove('hidden');
+                document.getElementById('inventory-banner-text').innerText = `Warning: ${low.length} item(s) running low!`;
+            } else {
+                banner.classList.add('hidden');
+            }
+
             let inventoryHTML = data.inventory.map((item, idx) => `<div class="bg-white rounded-[2rem] p-8 border ${item.critical ? 'border-yellow-400 ring-2 ring-yellow-50' : 'border-slate-100'} shadow-sm relative transition-all group hover:shadow-md"><div class="flex justify-between items-start mb-6"><div class="flex items-center gap-4"><div class="w-12 h-12 ${item.critical ? 'bg-yellow-50 text-yellow-500' : 'bg-red-50 text-red-600'} rounded-2xl flex items-center justify-center"><i data-lucide="package" class="w-6 h-6"></i></div><div><h3 class="text-base font-black text-slate-800 uppercase leading-none mb-1">${item.name}</h3><span class="text-[9px] font-black bg-slate-100 text-slate-400 px-2 py-0.5 rounded uppercase">${item.category}</span></div></div><div class="flex gap-2 text-slate-200 group-hover:text-slate-400"><i onclick="openModal('Inventory', ${idx})" data-lucide="edit-2" class="w-4 h-4 cursor-pointer hover:text-slate-600"></i><i onclick="deleteRecord('Inventory', ${idx})" data-lucide="trash-2" class="w-4 h-4 cursor-pointer hover:text-red-500"></i></div></div><div class="flex justify-between items-end mb-6"><p class="label-style">Quantity:</p><div class="text-right leading-none"><span class="text-3xl font-black text-slate-800">${item.stock}</span><span class="text-[10px] font-bold text-slate-400 uppercase ml-1">${item.unit}</span></div></div>${item.critical?'<div class="bg-yellow-50 border border-yellow-100 rounded-xl p-3 flex items-center gap-2 mb-6"><i data-lucide="info" class="w-3 h-3 text-yellow-600"></i><p class="text-[10px] font-black text-yellow-700 uppercase">Critical Threshold</p></div>':''}<div class="space-y-3 pt-4 border-t border-slate-50"><div class="flex justify-between items-center"><span class="label-style">Threshold:</span><span class="text-[10px] font-black text-slate-500 uppercase">${item.threshold}</span></div><div class="flex justify-between items-center"><span class="label-style">Supplier:</span><span class="text-[10px] font-black text-slate-500 uppercase">${item.supplier}</span></div><div class="flex justify-between items-center"><span class="label-style">Restocked:</span><span class="text-[10px] font-black text-slate-500 uppercase">${item.restocked}</span></div></div></div>`).join('');
             
             const addCardHTML = `
@@ -500,7 +507,7 @@ function setView(v) {
             grid.innerHTML = inventoryHTML + addCardHTML;
             lucide.createIcons();
         }
-
+        
         window.deleteRecord = async (type, i) => {
             if (confirm(`Are you sure you want to delete this ${type}?`)) {
                 let idToDelete = null;
@@ -870,7 +877,7 @@ function setView(v) {
                 
                 if (res && res.user) {
                     currentUser = res.user;
-                    data = res; // Load the initial data
+                    data = res; 
                     
                     document.getElementById('login-view').classList.add('hidden-view');
                     document.getElementById('dashboard-view').classList.remove('hidden-view');
